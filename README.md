@@ -1,6 +1,6 @@
 # SemVer DSL
 
-A simple DSL which allows you to invoke different functionality depending on version match.
+A simple internal DSL which allows you to invoke different functionality depending on version match.
 
 # Demo
 

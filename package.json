@@ -1,9 +1,12 @@
 {
   "name": "semver-dsl",
   "version": "1.0.0",
-  "description": "Tiny DSL which allows invocation of different functionality depending on SemVer match.",
+  "description": "Tiny internal DSL which allows invocation of different functionality depending on SemVer match.",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
+    "build": "tsc && cp package.json dist",
+    "release": "npm run build && ts-node tools/cleanup.ts && rimraf dist/test",
     "test": "tsc && jest"
   },
   "repository": {
@@ -22,8 +25,10 @@
   "homepage": "https://github.com/mgechev/semver-dsl#readme",
   "devDependencies": {
     "@types/jest": "^18.1.1",
+    "@types/node": "^7.0.5",
     "@types/semver": "^5.3.30",
     "jest": "^18.1.0",
+    "ts-node": "^2.1.0",
     "typescript": "^2.1.6"
   },
   "dependencies": {
