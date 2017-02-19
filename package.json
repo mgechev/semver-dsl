@@ -1,6 +1,6 @@
 {
   "name": "semver-dsl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tiny internal DSL which allows invocation of different functionality depending on SemVer match.",
   "main": "index.js",
   "types": "index.d.ts",
