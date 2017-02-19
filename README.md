@@ -6,6 +6,10 @@ A simple internal DSL which allows you to invoke different functionality dependi
 
 # Demo
 
+```bash
+$ npm i semver-dsl --save
+```
+
 ```ts
 import {SemVerDSL} from 'semver-dsl';
 
