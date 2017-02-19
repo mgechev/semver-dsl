@@ -1,0 +1,32 @@
+{
+  "name": "semver-dsl",
+  "version": "1.0.0",
+  "description": "Tiny DSL which allows invocation of different functionality depending on SemVer match.",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc && jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mgechev/semver-dsl.git"
+  },
+  "keywords": [
+    "semver",
+    "dsl"
+  ],
+  "author": "Minko Gechev <mgechev@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mgechev/semver-dsl/issues"
+  },
+  "homepage": "https://github.com/mgechev/semver-dsl#readme",
+  "devDependencies": {
+    "@types/jest": "^18.1.1",
+    "@types/semver": "^5.3.30",
+    "jest": "^18.1.0",
+    "typescript": "^2.1.6"
+  },
+  "dependencies": {
+    "semver": "^5.3.0"
+  }
+}
