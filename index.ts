@@ -1,24 +1,23 @@
 import * as semver from 'semver';
 
 export interface ISemDSL {
-  gte(version: string, callback?: Function): ISemContextualDSL;
-  lte(version: string, callback?: Function): ISemContextualDSL;
-  gt(version: string, callback?: Function): ISemContextualDSL;
-  lt(version: string, callback?: Function): ISemContextualDSL;
-  eq(version: string, callback?: Function): ISemContextualDSL;
-  neq(version: string, callback?: Function): ISemContextualDSL;
-  between(v1: string, v2: string, callback?: Function): ISemContextualDSL;
+  gte(version: string, callback: Function): ISemContextBoundDSL;
+  lte(version: string, callback: Function): ISemContextBoundDSL;
+  gt(version: string, callback: Function): ISemContextBoundDSL;
+  lt(version: string, callback: Function): ISemContextBoundDSL;
+  eq(version: string, callback: Function): ISemContextBoundDSL;
+  neq(version: string, callback: Function): ISemContextBoundDSL;
+  between(v1: string, v2: string, callback: Function): ISemContextBoundDSL;
 }
 
-export interface ISemContextualDSL {
-  (): boolean;
-  elseIf(predicate: Function, callback: Function): ISemContextualDSL;
-  else(callback: Function);
+export interface ISemContextBoundDSL {
+  elseIf: ISemDSL;
+  else(callback: Function): void;
 }
 
-export const SemDSL = (target: string) => {
+export const SemDSL = (target: string, lastPredicate = () => true) => {
 
-  function getContextRunner(lastPredicate: Function): ISemContextualDSL {
+  function createBoundContext(lastPredicate: () => boolean): ISemContextBoundDSL {
     const result = () => false;
     const object = Object.create({}, {
       else: {
@@ -27,10 +26,8 @@ export const SemDSL = (target: string) => {
         }
       },
       elseIf: {
-        value(predicate: Function, callback: Function) {
-          if (!lastPredicate() && predicate()) callback();
-          const nextPredicate = () => predicate() || lastPredicate();
-          return getContextRunner(nextPredicate);
+        get() {
+          return SemDSL(target, () => !lastPredicate())
         }
       }
     });
@@ -40,83 +37,46 @@ export const SemDSL = (target: string) => {
 
   const dsl = {
 
-    gte(version: string, callback?: Function): ISemContextualDSL {
-      const predicate = semver.gte.bind(null, target, version);
-      if (!callback) {
-        return predicate;
-      }
-      if (predicate()) {
-        callback();
-      }
-      return getContextRunner(predicate);
+    gte(version: string, callback: Function): ISemContextBoundDSL {
+      const predicate = () => semver.gte(target, version) && lastPredicate();
+      if (predicate()) callback();
+      return createBoundContext(predicate);
     },
 
-    lte(version: string, callback?: Function): ISemContextualDSL {
-      const predicate = semver.lte.bind(null, target, version);
-      if (!callback) {
-        return predicate;
-      }
-      if (predicate()) {
-        callback();
-      }
-      return getContextRunner(predicate);
+    lte(version: string, callback: Function): ISemContextBoundDSL {
+      const predicate = () => semver.lte(target, version) && lastPredicate();
+      if (predicate()) callback();
+      return createBoundContext(predicate);
     },
 
-    gt(version: string, callback?: Function): ISemContextualDSL {
-      const predicate = semver.gt.bind(null, target, version);
-      if (!callback) {
-        return predicate;
-      }
-      if (predicate()) {
-        callback();
-      }
-      return getContextRunner(predicate);
+    gt(version: string, callback: Function): ISemContextBoundDSL {
+      const predicate = () => semver.gt(target, version) && lastPredicate();
+      if (predicate()) callback();
+      return createBoundContext(predicate);
     },
 
-    lt(version: string, callback?: Function): ISemContextualDSL {
-      const predicate = semver.lt.bind(null, target, version);
-      if (!callback) {
-        return predicate;
-      }
-      if (predicate()) {
-        callback();
-      }
-      return getContextRunner(predicate);
+    lt(version: string, callback: Function): ISemContextBoundDSL {
+      const predicate = () => semver.lt(target, version) && lastPredicate();
+      if (predicate()) callback();
+      return createBoundContext(predicate);
     },
 
-    eq(version: string, callback?: Function): ISemContextualDSL {
-      const predicate = semver.eq.bind(null, target, version);
-      if (!callback) {
-        return predicate;
-      }
-      if (predicate()) {
-        callback();
-      }
-      return getContextRunner(predicate);
+    eq(version: string, callback: Function): ISemContextBoundDSL {
+      const predicate = () => semver.eq(target, version) && lastPredicate();
+      if (predicate()) callback();
+      return createBoundContext(predicate);
     },
 
-    neq(version: string, callback?: Function): ISemContextualDSL {
-      const predicate = semver.neq.bind(null, target, version);
-      if (!callback) {
-        return predicate;
-      }
-      if (predicate()) {
-        callback();
-      }
-      return getContextRunner(predicate);
+    neq(version: string, callback: Function): ISemContextBoundDSL {
+      const predicate = () => semver.neq(target, version) && lastPredicate();
+      if (predicate()) callback();
+      return createBoundContext(predicate);
     },
 
-    between(v1: string, v2: string, callback?: Function): ISemContextualDSL {
-      const predicate = () => {
-        return semver.gte(target, v1) && semver.lte(target, v2);
-      };
-      if (!callback) {
-        return predicate as any;
-      }
-      if (predicate()) {
-        callback();
-      }
-      return getContextRunner(predicate);
+    between(v1: string, v2: string, callback: Function): ISemContextBoundDSL {
+      const predicate = () => semver.gte(target, v1) && semver.lte(target, v2) && lastPredicate();
+      if (predicate()) callback();
+      return createBoundContext(predicate);
     }
   };
   return dsl;

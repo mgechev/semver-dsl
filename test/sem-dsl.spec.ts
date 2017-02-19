@@ -101,9 +101,9 @@ describe('SemDSL', () => {
       spyOn(target, 'elseIf');
       spyOn(target, 'else');
       spyOn(target, 'base');
-      const dsl = SemDSL('3.0.0')
-      dsl.gt('3.2.1', target.base)
-        .elseIf(dsl.lt('3.0.1'), target.elseIf)
+      SemDSL('3.0.0')
+        .gt('3.2.1', target.base)
+        .elseIf.lt('3.0.1', target.elseIf)
         .else(target.else);
       expect(target.elseIf).toHaveBeenCalled();
       expect(target.base).not.toHaveBeenCalled();
@@ -121,10 +121,10 @@ describe('SemDSL', () => {
       spyOn(target, 'elseIf2');
       spyOn(target, 'else');
       spyOn(target, 'base');
-      const dsl = SemDSL('3.0.0')
-      dsl.gt('3.2.1', target.base)
-        .elseIf(dsl.gt('3.0.1'), target.elseIf1)
-        .elseIf(dsl.lt('3.0.1'), target.elseIf2)
+      SemDSL('3.0.0')
+        .gt('3.2.1', target.base)
+        .elseIf.gt('3.0.1', target.elseIf1)
+        .elseIf.lt('3.0.1', target.elseIf2)
         .else(target.else);
       expect(target.elseIf2).toHaveBeenCalled();
       expect(target.elseIf1).not.toHaveBeenCalled();
@@ -143,10 +143,10 @@ describe('SemDSL', () => {
       spyOn(target, 'elseIf2');
       spyOn(target, 'else');
       spyOn(target, 'base');
-      const dsl = SemDSL('3.0.0')
-      dsl.gt('3.2.1', target.base)
-        .elseIf(dsl.gt('3.0.1'), target.elseIf1)
-        .elseIf(dsl.between('3.0.1', '3.1.8'), target.elseIf2)
+      SemDSL('3.0.0')
+        .gt('3.2.1', target.base)
+        .elseIf.gt('3.0.1', target.elseIf1)
+        .elseIf.between('3.0.1', '3.1.8', target.elseIf2)
         .else(target.else);
       expect(target.elseIf2).not.toHaveBeenCalled();
       expect(target.elseIf1).not.toHaveBeenCalled();
