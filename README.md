@@ -1,6 +1,6 @@
 # SemVer DSL
 
-A simple internal DSL which allows you to invoke different functionality depending on version match.
+A simple internal DSL which allows you to invoke different functionality depending on version match. Used in codelyzer for keeping the code compatible across different versions of the Angular compiler.
 
 # Demo
 
@@ -17,13 +17,13 @@ In the example above will be invoked `else`.
 # API
 
 - `SemDSL(version: string)` - factory which accepts a version and returns an object.
-- `gte(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` method if a callback is passed. Otherwise, it returns `(v: string) => gte(version, v)`.
-- `lte(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` method if a callback is passed. Otherwise, it returns `(v: string) => lte(version, v)`.
-- `gt(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` method if a callback is passed. Otherwise, it returns `(v: string) => gt(version, v)`.
-- `lt(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` method if a callback is passed. Otherwise, it returns `(v: string) => lt(version, v)`.
-- `eq(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` method if a callback is passed. Otherwise, it returns `(v: string) => eq(version, v)`.
-- `neq(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` method if a callback is passed. Otherwise, it returns `(v: string) => neq(version, v)`.
-- `between(v1: string, v2: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` method if a callback is passed. Otherwise, it returns `(v: string) => between(v1, v2, v)`.
+- `gte(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` methods if a callback is passed. Otherwise, it returns the predicate `(v: string) => gte(version, v)`.
+- `lte(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` methods if a callback is passed. Otherwise, it returns the predicate `(v: string) => lte(version, v)`.
+- `gt(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` methods if a callback is passed. Otherwise, it returns the predicate `(v: string) => gt(version, v)`.
+- `lt(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` methods if a callback is passed. Otherwise, it returns the predicate `(v: string) => lt(version, v)`.
+- `eq(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` methods if a callback is passed. Otherwise, it returns the predicate `(v: string) => eq(version, v)`.
+- `neq(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` methods if a callback is passed. Otherwise, it returns the predicate `(v: string) => neq(version, v)`.
+- `between(v1: string, v2: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` methods if a callback is passed. Otherwise, it returns the predicate `(v: string) => between(v1, v2, v)`.
 
 ```ts
 export interface ISemDSL {
