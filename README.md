@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mgechev/semver-dsl.svg?branch=master)](https://travis-ci.org/mgechev/semver-dsl)
+
 # SemVer DSL
 
 A simple internal DSL which allows you to invoke different functionality depending on version match. Used in codelyzer for keeping the code compatible across different versions of the Angular compiler.
@@ -7,11 +9,16 @@ A simple internal DSL which allows you to invoke different functionality dependi
 ```ts
 import {SemVerDSL} from 'semver-dsl';
 
+const base = () => {};
+const elseIf1 = () => {};
+const elseIf2 = () => {};
+const else = () => console.log('I will be invoked!');
+
 SemVerDSL('3.0.0')
-  .gt('3.2.1', target.base)
-  .elseIf.gt('3.0.1', target.elseIf1)
-  .elseIf.between('3.0.1', '3.1.8', target.elseIf2)
-  .else(target.else);
+  .gt('3.2.1', base)
+  .elseIf.gt('3.0.1', elseIf1)
+  .elseIf.between('3.0.1', '3.1.8', elseIf2)
+  .else(else);
 ```
 
 In the example above will be invoked `else`.
