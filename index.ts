@@ -18,8 +18,7 @@ export interface ISemVerContextBoundDSL {
 export const SemVerDSL = (target: string, lastPredicate = () => true) => {
 
   function createBoundContext(lastPredicate: () => boolean): ISemVerContextBoundDSL {
-    const result = () => false;
-    const object = Object.create({}, {
+    return Object.create({}, {
       else: {
         value(callback: Function) {
           if (!lastPredicate()) callback();
@@ -31,8 +30,6 @@ export const SemVerDSL = (target: string, lastPredicate = () => true) => {
         }
       }
     });
-    Object.setPrototypeOf(result, object);
-    return result as any;
   };
 
   const dsl = {
