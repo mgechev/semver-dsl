@@ -5,7 +5,9 @@ A simple internal DSL which allows you to invoke different functionality dependi
 # Demo
 
 ```ts
-SemDSL('3.0.0')
+import {SemVerDSL} from 'semver-dsl';
+
+SemVerDSL('3.0.0')
   .gt('3.2.1', target.base)
   .elseIf.gt('3.0.1', target.elseIf1)
   .elseIf.between('3.0.1', '3.1.8', target.elseIf2)
@@ -24,11 +26,11 @@ In the example above will be invoked `else`.
 - `eq(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` properties.
 - `neq(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` properties.
 - `between(v1: string, v2: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` properties.
-- `elseIf` - returns an object of type `ISemDSL` bound to the previous predicate.
+- `elseIf` - returns an object of type `ISemVerDSL` bound to the previous predicate.
 - `else` - invokes given callback if all of the previous conditions have failed.
 
 ```ts
-export interface ISemDSL {
+export interface ISemVerDSL {
   gte(version: string, callback: Function): ISemContextualDSL;
   lte(version: string, callback: Function): ISemContextualDSL;
   gt(version: string, callback: Function): ISemContextualDSL;
@@ -40,8 +42,8 @@ export interface ISemDSL {
 ```
 
 ```ts
-export interface ISemContextBoundDSL {
-  elseIf: ISemDSL;
+export interface ISemVerContextBoundDSL {
+  elseIf: ISemVerDSL;
   else(callback: Function): void;
 }
 ```

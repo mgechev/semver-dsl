@@ -1,12 +1,12 @@
-import { SemDSL } from '../index';
+import { SemVerDSL } from '../index';
 
 describe('SemDSL', () => {
 
   describe('basic operators', () => {
 
     it('should has a factory which returns the context', () => {
-      expect(SemDSL).not.toBeFalsy();
-      expect(SemDSL('2.0.0')).not.toBeFalsy();
+      expect(SemVerDSL).not.toBeFalsy();
+      expect(SemVerDSL('2.0.0')).not.toBeFalsy();
     });
 
     it('should invoke function when "eq" condition matched', () => {
@@ -14,7 +14,7 @@ describe('SemDSL', () => {
         foo() {}
       };
       const spy = spyOn(target, 'foo');
-      SemDSL('2.0.0').eq('2.0.0', target.foo);
+      SemVerDSL('2.0.0').eq('2.0.0', target.foo);
       expect(target.foo).toHaveBeenCalled();
     });
 
@@ -23,7 +23,7 @@ describe('SemDSL', () => {
         foo() {}
       };
       const spy = spyOn(target, 'foo');
-      SemDSL('2.0.0').gt('1.9.9', target.foo);
+      SemVerDSL('2.0.0').gt('1.9.9', target.foo);
       expect(target.foo).toHaveBeenCalled();
     });
 
@@ -32,7 +32,7 @@ describe('SemDSL', () => {
         foo() {}
       };
       const spy = spyOn(target, 'foo');
-      SemDSL('2.0.0').lt('2.9.9', target.foo);
+      SemVerDSL('2.0.0').lt('2.9.9', target.foo);
       expect(target.foo).toHaveBeenCalled();
     });
 
@@ -43,8 +43,8 @@ describe('SemDSL', () => {
       };
       spyOn(target, 'foo');
       spyOn(target, 'bar');
-      SemDSL('2.0.0').lte('2.0.0', target.foo);
-      SemDSL('2.0.0').lte('3.0.0', target.bar);
+      SemVerDSL('2.0.0').lte('2.0.0', target.foo);
+      SemVerDSL('2.0.0').lte('3.0.0', target.bar);
       expect(target.foo).toHaveBeenCalled();
       expect(target.bar).toHaveBeenCalled();
     });
@@ -56,8 +56,8 @@ describe('SemDSL', () => {
       };
       spyOn(target, 'foo');
       spyOn(target, 'bar');
-      SemDSL('2.0.0').gte('2.0.0', target.foo);
-      SemDSL('2.0.0').gte('1.0.0', target.bar);
+      SemVerDSL('2.0.0').gte('2.0.0', target.foo);
+      SemVerDSL('2.0.0').gte('1.0.0', target.bar);
       expect(target.foo).toHaveBeenCalled();
       expect(target.bar).toHaveBeenCalled();
     });
@@ -69,8 +69,8 @@ describe('SemDSL', () => {
       };
       spyOn(target, 'foo');
       spyOn(target, 'bar');
-      SemDSL('2.0.0').between('1.9.0', '2.2.0', target.foo);
-      SemDSL('3.0.0-beta.4').between('1.9.0', '3.0.0', target.bar);
+      SemVerDSL('2.0.0').between('1.9.0', '2.2.0', target.foo);
+      SemVerDSL('3.0.0-beta.4').between('1.9.0', '3.0.0', target.bar);
       expect(target.foo).toHaveBeenCalled();
       expect(target.bar).toHaveBeenCalled();
     });
@@ -85,7 +85,7 @@ describe('SemDSL', () => {
       };
       spyOn(target, 'else');
       spyOn(target, 'base');
-      SemDSL('3.0.0')
+      SemVerDSL('3.0.0')
         .between('1.9.0', '2.2.0', target.base)
         .else(target.else);
       expect(target.base).not.toHaveBeenCalled();
@@ -101,7 +101,7 @@ describe('SemDSL', () => {
       spyOn(target, 'elseIf');
       spyOn(target, 'else');
       spyOn(target, 'base');
-      SemDSL('3.0.0')
+      SemVerDSL('3.0.0')
         .gt('3.2.1', target.base)
         .elseIf.lt('3.0.1', target.elseIf)
         .else(target.else);
@@ -121,7 +121,7 @@ describe('SemDSL', () => {
       spyOn(target, 'elseIf2');
       spyOn(target, 'else');
       spyOn(target, 'base');
-      SemDSL('3.0.0')
+      SemVerDSL('3.0.0')
         .gt('3.2.1', target.base)
         .elseIf.gt('3.0.1', target.elseIf1)
         .elseIf.lt('3.0.1', target.elseIf2)
@@ -143,7 +143,7 @@ describe('SemDSL', () => {
       spyOn(target, 'elseIf2');
       spyOn(target, 'else');
       spyOn(target, 'base');
-      SemDSL('3.0.0')
+      SemVerDSL('3.0.0')
         .gt('3.2.1', target.base)
         .elseIf.gt('3.0.1', target.elseIf1)
         .elseIf.between('3.0.1', '3.1.8', target.elseIf2)
